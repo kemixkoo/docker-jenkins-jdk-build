@@ -1,0 +1,27 @@
+[core]
+	fileMode = false
+[color]
+	ui = true
+[pull]
+	rebase = true
+[http]
+	sslVerify = false
+
+[alias]
+	co = checkout
+	ci = commit
+	cp = cherry-pick
+	st = status
+	br = branch
+	pr = pull --rebase
+	prp = pull --rebase -p
+	unstage = reset HEAD --
+	rh = reset --hard
+	cl = clean -dfx
+	last = log -1 HEAD
+	hist = log --pretty=format:'%h %ad | %an | %s%d' --graph --date=short
+	type = cat-file -t
+	dump = cat-file -p
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+
