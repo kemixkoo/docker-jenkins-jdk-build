@@ -31,7 +31,7 @@ docker run -d -p 8180:8080 -p 51000:50000 \
 # Custom Jenkins Home
 ```
 docker run -d -p 8180:8080 -p 51000:50000 \
-    -v /path/to/jenkins_home:/var/jenkins_home \
+    -v /path/to/jenkins/home:/var/jenkins_home \
     kemixkoo/jenkins-jdk
 ```
 
@@ -54,22 +54,35 @@ See another documentation [Jenkins Docker-in-Docker](http://container-solutions.
 - Save job and do “Build Now”.
 - Check the result in "Console Output" to ok or not.
 
-# Custom Time Zone for Container with Jenkins
+# Share Datetime for Container
 ```
 docker run -d -p 8180:8080 -p 51000:50000 \
     -v /etc/localtime:/etc/localtime:ro \
+    kemixkoo/jenkins-jdk
+```
+
+# Custom Time Zone for Container
+```
+docker run -d -p 8180:8080 -p 51000:50000 \
     -e JAVA_OPTS="-Duser.timezone=Asia/Shanghai" \
     -e TZ="Asia/Shanghai" \
     kemixkoo/jenkins-jdk
 ```
 
-# Support ssh for Git
+# Share my ssh for Git of Jenkins
 ```
 docker run -d -p 8180:8080 -p 51000:50000 \
     -v /path/to/my/ssh:/var/jenkins_home/.ssh \
     kemixkoo/jenkins-jdk
 ```
 Use same ssh key for git to update.
+
+# Share my M2 for Maven of Jenkins
+```
+docker run -d -p 8180:8080 -p 51000:50000 \
+    -v /path/to/my/m2:/var/jenkins_home/.m2 \
+    kemixkoo/jenkins-jdk
+```
 
 
 # Building
