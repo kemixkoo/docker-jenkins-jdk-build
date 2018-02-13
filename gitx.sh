@@ -5,6 +5,7 @@
 #
 # Author: Kemix Koo <kemix_koo@163.com>
 #
+set -o errexit -o nounset
 
 WS_Path=$(pwd)
 commandName=$*

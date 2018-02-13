@@ -11,6 +11,7 @@ ENV TERM xterm
 #ENV TZ "Asia/Shanghai"
 #RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+ARG cur_user="jenkins"
 
 #----------------------------------------------------------
 USER root
@@ -21,7 +22,7 @@ RUN apt-get update \
                 git subversion
 
 # add jenkins user to sudo
-RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
+RUN echo "${cur_user} ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 ARG usr_bin="/usr/local/bin"
 
@@ -118,6 +119,9 @@ RUN  apt-get clean \
 # add my files
 ARG my_files="/my-files"
 ADD .gitconfig ${my_files}
+RUN chmod 755 -R ${my_files} \
+        && chown ${cur_user}:${cur_user} -R ${my_files}
+
 
 # add my shell for git
 ADD gitx.sh ${usr_bin}
@@ -125,7 +129,7 @@ RUN mv ${usr_bin}/gitx.sh ${usr_bin}/gitx \
         && chmod +x ${usr_bin}/gitx
 
 
-USER jenkins
+USER ${cur_user}
 
 #----------------------Install Jenkins plugins------------------------------------
 #ARG JENKINS_PATH=/usr/share/jenkins
