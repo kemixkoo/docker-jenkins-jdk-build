@@ -1,11 +1,11 @@
-# Jenkins with JDK, Git, SVN, Maven Image
+# Jenkins with JDK, Git, SVN, Maven, Ant, Gradle Image
 
 Based on [jenkins/jenkins](https://hub.docker.com/r/jenkins/jenkins/)
 
 # Basic Usage
 ```
 docker run -d -p 8180:8080 -p 51000:50000 \
-    kemixkoo/jenkins-jdk-mvn
+    kemixkoo/jenkins-jdk-build
 ```
 Then, can access Jenkins via http://localhost:8180
 
@@ -14,33 +14,23 @@ Find the admin password via:
 docker logs <running-container-id>
 ```
 
-# Custom Maven Home for special version
-```
-docker run -d -p 8180:8080 -p 51000:50000 \
-    -v /path/to/maven:/opt/maven \
-    kemixkoo/jenkins-jdk-mvn
-```
-
-# Custom JDK Home for special version
-```
-docker run -d -p 8180:8080 -p 51000:50000 \
-    -v /path/to/jdk:/opt/jdk \
-    kemixkoo/jenkins-jdk-mvn
-```
+------
 
 # Custom Jenkins Home
 ```
 docker run -d -p 8180:8080 -p 51000:50000 \
     -v /path/to/jenkins/home:/var/jenkins_home \
-    kemixkoo/jenkins-jdk-mvn
+    kemixkoo/jenkins-jdk-build
 ```
+
+------
 
 # Support Docker-in-Docker (DinD)
 ```
 docker run -d -p 8180:8080 -p 51000:50000 \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v $(which docker):/usr/bin/docker \
-    kemixkoo/jenkins-jdk-mvn
+    kemixkoo/jenkins-jdk-build
 ```
 
 See another documentation [Jenkins Docker-in-Docker](http://container-solutions.com/running-docker-in-jenkins-in-docker/)
@@ -54,38 +44,81 @@ See another documentation [Jenkins Docker-in-Docker](http://container-solutions.
 - Save job and do “Build Now”.
 - Check the result in "Console Output" to ok or not.
 
-# Share Datetime for Container
+------
+
+# Share Date Time and Zone
 ```
 docker run -d -p 8180:8080 -p 51000:50000 \
     -v /etc/localtime:/etc/localtime:ro \
-    kemixkoo/jenkins-jdk-mvn
+    -v /etc/timezone:/etc/timezone:ro \
+    kemixkoo/jenkins-jdk-build
 ```
 
-# Custom Time Zone for Container
+# Custom Time Zone for Jenkins
 ```
 docker run -d -p 8180:8080 -p 51000:50000 \
     -e JAVA_OPTS="-Duser.timezone=Asia/Shanghai" \
     -e TZ="Asia/Shanghai" \
-    kemixkoo/jenkins-jdk-mvn
+    kemixkoo/jenkins-jdk-build
 ```
 
-# Share my ssh for Git of Jenkins
+------
+
+# Share my ssh for Git
 ```
 docker run -d -p 8180:8080 -p 51000:50000 \
     -v /path/to/my/ssh:/var/jenkins_home/.ssh \
-    kemixkoo/jenkins-jdk-mvn
+    kemixkoo/jenkins-jdk-build
 ```
 Use same ssh key for git to update.
 
-# Share my M2 for Maven of Jenkins
+------
+
+# Custom JDK version
+```
+docker run -d -p 8180:8080 -p 51000:50000 \
+    -v /path/to/jdk:/opt/jdk \
+    kemixkoo/jenkins-jdk-build
+```
+
+------
+
+# Custom Maven version
+```
+docker run -d -p 8180:8080 -p 51000:50000 \
+    -v /path/to/maven:/opt/maven \
+    kemixkoo/jenkins-jdk-build
+```
+
+## Share my M2 for Maven
 ```
 docker run -d -p 8180:8080 -p 51000:50000 \
     -v /path/to/my/m2:/var/jenkins_home/.m2 \
-    kemixkoo/jenkins-jdk-mvn
+    kemixkoo/jenkins-jdk-build
 ```
+
+------
+
+# Custom Ant version
+```
+docker run -d -p 8180:8080 -p 51000:50000 \
+    -v /path/to/ant:/opt/ant \
+    kemixkoo/jenkins-jdk-build
+```
+
+------
+
+# Custom Gradle version
+```
+docker run -d -p 8180:8080 -p 51000:50000 \
+    -v /path/to/gradle:/opt/gradle \
+    kemixkoo/jenkins-jdk-build
+```
+
+------
 
 
 # Building
 ```
-docker build -t kemixkoo/jenkins-jdk-mvn .
+docker build -t kemixkoo/jenkins-jdk-build .
 ```
