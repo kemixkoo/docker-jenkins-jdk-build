@@ -23,6 +23,16 @@ docker run -d -p 8180:8080 -p 51000:50000 \
     kemixkoo/jenkins-jdk-build
 ```
 
+when do `docker logs`, found the errors:
+
+```
+touch: cannot touch '/var/jenkins_home/copy_reference_file.log': Permission denied
+Can not write to /var/jenkins_home/copy_reference_file.log. Wrong volume permissions?
+
+```
+means, no rights for volume path `/path/to/jenkins/home`, you need use `chmod` or `chown` to set the rights for user `jenkins`.
+
+
 ------
 
 # Support Docker-in-Docker (DinD)
